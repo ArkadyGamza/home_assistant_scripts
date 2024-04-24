@@ -1,0 +1,64 @@
+- id: "1713265076593"
+  alias: Kitchen light automation
+  description: ""
+  use_blueprint:
+    path: EPMatt/ikea_e2001_e2002.yaml
+    input:
+      integration: Zigbee2MQTT
+      controller_entity: sensor.ikea_kitchen_switch_action
+      helper_last_controller_event: input_text.ikea_kitchen_light_switch_automation_helper_1
+      action_button_right_long:
+        - service: script.light_increase_color_temp
+          data:
+            led: light.kitchen_counter_led
+            step: 1000
+        - delay:
+            milliseconds: 500
+      action_button_left_long:
+        - service: script.light_decrease_color_temp
+          data:
+            led: light.kitchen_counter_led
+            step: 1000
+        - delay:
+            milliseconds: 500
+      action_button_up_long:
+        - service: script.light_increase_brightness
+          data:
+            led: light.kitchen_counter_led
+            step: 20
+        - delay:
+            milliseconds: 500
+      action_button_down_long:
+        - service: script.light_decrease_brightness
+          data:
+            led: light.kitchen_counter_led
+            step: 20
+        - delay:
+            milliseconds: 500
+      button_left_long_loop: true
+      button_right_long_loop: true
+      button_up_long_loop: true
+      button_down_long_loop: true
+      button_right_long_max_loop_repeats: 100
+      button_up_long_max_loop_repeats: 100
+      button_left_long_max_loop_repeats: 100
+      button_down_long_max_loop_repeats: 100
+      action_button_left_short:
+        - service: script.light_decrease_color_temp
+          data:
+            led: light.kitchen_counter_led
+            step: 2000
+      action_button_right_short:
+        - service: script.light_increase_color_temp
+          data:
+            led: light.kitchen_counter_led
+            step: 2000
+      action_button_up_short:
+        - service: script.light_increase_brightness
+          data:
+            led: light.kitchen_counter_led
+            step: 20
+      action_button_down_short:
+        - service: light.turn_off
+          target:
+            entity_id: light.kitchen_counter_led
