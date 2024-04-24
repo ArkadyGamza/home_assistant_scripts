@@ -1,0 +1,102 @@
+light_decrease_color_temp:
+  alias: Light decrease color temp
+  mode: single
+  icon: mdi:alarm-light-outline
+  sequence:
+    - variables:
+        led_state: "{{states[led].state}}"
+        min_color_temp_k: "{{states[led].attributes.min_color_temp_kelvin | int(0)}}"
+        max_color_temp_k: "{{states[led].attributes.max_color_temp_kelvin | int(0)}}"
+        color_temp_k: "{{states[led].attributes.color_temp_kelvin | int(0)}}"
+    - if:
+        - condition: template
+          value_template: "{{led_state == 'on'}}"
+      then:
+        - service: light.turn_on
+          data:
+            kelvin: "{{[color_temp_k - step, min_color_temp_k] | max}}"
+          target:
+            entity_id: "{{led}}"
+      else:
+        - service: light.turn_on
+          target:
+            entity_id: "{{led}}"
+
+light_increase_color_temp:
+  alias: Light increase color temp
+  mode: single
+  icon: mdi:alarm-light-outline
+  sequence:
+    - variables:
+        led_state: "{{states[led].state}}"
+        min_color_temp_k: "{{states[led].attributes.min_color_temp_kelvin | int(0)}}"
+        max_color_temp_k: "{{states[led].attributes.max_color_temp_kelvin | int(0)}}"
+        color_temp_k: "{{states[led].attributes.color_temp_kelvin | int(0)}}"
+    - if:
+        - condition: template
+          value_template: "{{led_state == 'on'}}"
+      then:
+        - service: light.turn_on
+          data:
+            kelvin: "{{[color_temp_k + step, max_color_temp_k] | min}}"
+          target:
+            entity_id: "{{led}}"
+      else:
+        - service: light.turn_on
+          target:
+            entity_id: "{{led}}"
+
+light_increase_brightness:
+  alias: Light increase brightness
+  mode: single
+  icon: mdi:alarm-light-outline
+  sequence:
+    - variables:
+        led_state: "{{states[led].state}}"
+        led_brightness: "{{states[led].attributes.brightness | int(0)}}"
+        min_brightness: 2
+        max_brightness: 254
+    #    - service: system_log.write
+    #      data:
+    #        message: "br = {{led_brightness}}, step = {{step}}, new one = {{ [led_brightness + step, max_brightness] | min }}"
+    - if:
+        - condition: template
+          value_template: "{{led_state == 'on'}}"
+      then:
+        - service: light.turn_on
+          data:
+            brightness: "{{ [led_brightness + step, max_brightness] | min }}"
+          target:
+            entity_id: "{{led}}"
+      else:
+        - service: light.turn_on
+          target:
+            entity_id: "{{led}}"
+
+light_decrease_brightness:
+  alias: Light decrease brightness
+  mode: single
+  icon: mdi:alarm-light-outline
+  sequence:
+    - variables:
+        led_state: "{{states[led].state}}"
+        led_brightness: "{{states[led].attributes.brightness | int(0)}}"
+        min_brightness: 2
+        max_brightness: 254
+    #    - service: system_log.write
+    #      data:
+    #        message: "br = {{led_brightness}}, step = {{step}}, new one = {{ [led_brightness - step, min_brightness] | max }}"
+
+    - if:
+        - condition: template
+          value_template: "{{led_state == 'on'}}"
+      then:
+        - service: light.turn_on
+          data:
+            brightness: "{{ [led_brightness - step, min_brightness] | max }}"
+          target:
+            entity_id: "{{led}}"
+      else:
+        - service: light.turn_on
+          target:
+            entity_id: "{{led}}"
