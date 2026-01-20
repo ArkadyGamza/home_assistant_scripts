@@ -1,0 +1,4 @@
+venv/
+backup.key
+temp_automation_config.json
+sync_scripts.py
