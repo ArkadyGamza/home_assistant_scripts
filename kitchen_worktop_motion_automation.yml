@@ -1,0 +1,9 @@
+- id: '1713990697921'
+  alias: Kitchen worktop switch light on motion
+  description: ''
+  use_blueprint:
+    path: ArkadyGamza/motion_illuminance_activated_entity.yaml
+    input:
+      motion_sensor: binary_sensor.kitchen_motion_light_sensor_occupancy
+      target_entity: light.kitchen_counter_led
+      illuminance_sensor: sensor.kitchen_motion_light_sensor_illuminance

@@ -13,10 +13,24 @@ Configures the **IKEA E2001/E2002** Zigbee switch to control the kitchen counter
     *   **Long Press (Left/Right):** Color Temperature (Warm/Cool).
     *   **Short Press (Left/Right):** Step Color Temperature.
 
-### 2. Helper Scripts (`scripts.yml`)
+### 2. Automation: Kitchen Motion Sensor (`kitchen_worktop_motion_automation.yml`)
+Controls the kitchen counter LEDs based on motion and illuminance.
+*   **Blueprint:** Uses `ArkadyGamza/motion_illuminance_activated_entity.yaml` (Looks like your custom blueprint!).
+*   **Triggers:**
+    *   **Motion:** `binary_sensor.kitchen_motion_light_sensor_occupancy`
+    *   **Illuminance:** `sensor.kitchen_motion_light_sensor_illuminance`
+*   **Target:** `light.kitchen_counter_led`
+
+### 3. Helper Scripts (`scripts.yml`)
 Contains 4 helper scripts used by the automation above to handle smooth transitions for brightness and color temperature:
 *   `light_increase_brightness` / `light_decrease_brightness`
 *   `light_increase_color_temp` / `light_decrease_color_temp`
+
+### 4. Blueprints (`blueprints/`)
+Contains the blueprints referenced by the automations:
+*   `blueprints/automation/EPMatt/ikea_e2001_e2002.yaml`: The IKEA switch controller blueprint.
+*   `blueprints/automation/ArkadyGamza/motion_illuminance_activated_entity.yaml`: Custom motion & illuminance logic.
+*   `blueprints/automation/ArkadyGamza/match-color-temp-kelvin.yaml`: Adaptive lighting helper.
 
 ## Deployment
 
