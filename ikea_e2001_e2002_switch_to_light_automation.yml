@@ -8,31 +8,31 @@
       controller_entity: sensor.ikea_kitchen_switch_action
       helper_last_controller_event: input_text.ikea_kitchen_light_switch_automation_helper_1
       action_button_right_long:
-      - service: script.light_increase_color_temp
-        data:
+      - data:
           led: light.kitchen_counter_led
           step: 1000
+        action: script.light_increase_color_temp
       - delay:
           milliseconds: 500
       action_button_left_long:
-      - service: script.light_decrease_color_temp
-        data:
+      - data:
           led: light.kitchen_counter_led
           step: 1000
+        action: script.light_decrease_color_temp
       - delay:
           milliseconds: 500
       action_button_up_long:
-      - service: script.light_increase_brightness
-        data:
+      - data:
           led: light.kitchen_counter_led
           step: 20
+        action: script.light_increase_brightness
       - delay:
           milliseconds: 500
       action_button_down_long:
-      - service: script.light_decrease_brightness
-        data:
+      - data:
           led: light.kitchen_counter_led
           step: 20
+        action: script.light_decrease_brightness
       - delay:
           milliseconds: 500
       button_left_long_loop: true
@@ -44,29 +44,32 @@
       button_left_long_max_loop_repeats: 100
       button_down_long_max_loop_repeats: 100
       action_button_left_short:
-      - service: script.light_decrease_color_temp
-        data:
+      - data:
           led: light.kitchen_counter_led
           step: 2000
+        action: script.light_decrease_color_temp
       action_button_right_short:
-      - service: script.light_increase_color_temp
-        data:
+      - data:
           led: light.kitchen_counter_led
           step: 2000
+        action: script.light_increase_color_temp
       action_button_up_short:
-      - service: automation.turn_off
-        data:
+      - data:
           stop_actions: true
         target:
           entity_id: automation.kitchen_worktop_switch_light_on_motion
-      - service: script.light_increase_brightness
-        data:
+        action: automation.turn_off
+      - data:
           led: light.kitchen_counter_led
           step: 20
+        action: script.light_increase_brightness
       action_button_down_short:
-      - service: automation.turn_on
-        target:
+      - target:
           entity_id: automation.kitchen_worktop_switch_light_on_motion
-      - service: light.turn_off
-        target:
+        action: automation.turn_on
+        data: {}
+      - target:
           entity_id: light.kitchen_counter_led
+        action: light.turn_off
+        data: {}
+      controller_device: 2b577d1280f7728483f684a0158cb296
